@@ -27,18 +27,18 @@ public class AuthorUpdateValidator implements ConstraintValidator<AuthorUpdateVa
     public boolean isValid(UpdateAuthorRequest value, ConstraintValidatorContext context) {
         if (value == null) return true;
 
-        Optional<Author> author = authorRepository.findById(value.getAuthorId());
-        if (!author.isPresent()){
+        if (value.getAuthorId() == null || value.getAuthorId().isEmpty()){
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("maaf kode ini tidak ada")
+            context.buildConstraintViolationWithTemplate("maaf kode masih kosong")
                     .addPropertyNode("authorId")
                     .addConstraintViolation();
             return false;
         }
 
-        if (value.getAuthorId() == null || value.getAuthorId().isEmpty()){
+        Optional<Author> author = authorRepository.findById(value.getAuthorId());
+        if (!author.isPresent()){
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("maaf kode masih kosong")
+            context.buildConstraintViolationWithTemplate("maaf kode ini tidak ada")
                     .addPropertyNode("authorId")
                     .addConstraintViolation();
             return false;

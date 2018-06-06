@@ -5,6 +5,7 @@ import com.spring.app.springbootjsonbinary.entity.Author;
 import com.spring.app.springbootjsonbinary.exception.BadRequestException;
 import com.spring.app.springbootjsonbinary.exception.NotFoundException;
 import com.spring.app.springbootjsonbinary.request.AddNewAuthorRequest;
+import com.spring.app.springbootjsonbinary.request.GetDetailsAuthorRequest;
 import com.spring.app.springbootjsonbinary.request.UpdateAuthorRequest;
 import com.spring.app.springbootjsonbinary.response.ErrorResponse;
 import com.spring.app.springbootjsonbinary.service.AuthorService;
@@ -34,6 +35,24 @@ public class ControllerAuthor {
             throw new NotFoundException("sorry list author is null");
         }
         return authors;
+    }
+
+    @GetMapping(value = "/{authorId}")
+    public ResponseEntity<Optional<Author>> findId(@PathVariable String authorId){
+        GetDetailsAuthorRequest request = getId(authorId);
+
+        Optional<Author> author = authorService.findById(request);
+        if (!author.isPresent()){
+            throw new NotFoundException("maaf kode ini tidak ada");
+        }
+        return new ResponseEntity<Optional<Author>>(author, HttpStatus.OK);
+    }
+
+    private GetDetailsAuthorRequest getId(String authorIds){
+        return GetDetailsAuthorRequest
+                .builder()
+                .authorId(authorIds)
+                .build();
     }
 
     /**

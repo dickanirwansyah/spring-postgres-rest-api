@@ -4,12 +4,14 @@ import com.spring.app.springbootjsonbinary.entity.Author;
 import com.spring.app.springbootjsonbinary.exception.BadRequestException;
 import com.spring.app.springbootjsonbinary.repository.AuthorRepository;
 import com.spring.app.springbootjsonbinary.request.AddNewAuthorRequest;
+import com.spring.app.springbootjsonbinary.request.GetDetailsAuthorRequest;
 import com.spring.app.springbootjsonbinary.request.UpdateAuthorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class AuthorServiceImpl implements AuthorService{
@@ -38,6 +40,12 @@ public class AuthorServiceImpl implements AuthorService{
                 requestAuthor.getAuthorName());
         return authorRepository.save(author);
     }
+
+    @Override
+    public Optional<Author> findById(GetDetailsAuthorRequest requestAuthor) {
+        return authorRepository.findById(requestAuthor.getAuthorId());
+    }
+
 
     private Author editAuthor(String id, String name){
         return Author.builder()
