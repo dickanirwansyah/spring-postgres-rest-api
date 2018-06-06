@@ -36,6 +36,22 @@ public class AuthorUpdateValidator implements ConstraintValidator<AuthorUpdateVa
             return false;
         }
 
+        if (value.getAuthorId() == null || value.getAuthorId().isEmpty()){
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("maaf kode masih kosong")
+                    .addPropertyNode("authorId")
+                    .addConstraintViolation();
+            return false;
+        }
+
+        if (value.getAuthorName() == null || value.getAuthorName().isEmpty()){
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("maaf nama masih kosong")
+                    .addPropertyNode("authorName")
+                    .addConstraintViolation();
+            return false;
+        }
+
         return true;
     }
 }
